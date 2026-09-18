@@ -15,14 +15,25 @@ built on the assumption that none exists.
 
 ## Install
 
-Arch: `cd pkg  # or cn/` then `makepkg -si`. Debian/Ubuntu:
+**Pick an edition first:** outside China, use **international** — CN login
+requires Chinese citizenship and cannot authenticate here.
+
+**Arch** (clone the repo, build the edition you picked):
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/noor-latif/workbuddy-linux/main/install-deb.sh | bash
-# CN: ... | bash -s -- cn
+cd workbuddy-linux/pkg   # international → command: workbuddyai
+cd workbuddy-linux/cn    # mainland-China → command: workbuddy
+makepkg -si
 ```
 
-Launch: `workbuddyai` (intl) / `workbuddy` (CN).
+**Debian/Ubuntu** (one-liner, no repo needed):
+
+```bash
+# international:
+curl -fsSL https://raw.githubusercontent.com/noor-latif/workbuddy-linux/main/install-deb.sh | bash
+# mainland-China:
+curl -fsSL https://raw.githubusercontent.com/noor-latif/workbuddy-linux/main/install-deb.sh | bash -s -- cn
+```
 
 ## Update
 
