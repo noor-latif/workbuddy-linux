@@ -1,0 +1,7 @@
+This repository contains only packaging scripts (PKGBUILDs, installer and
+update helpers). It contains no Tencent software and no vendor binaries —
+those are downloaded from Tencent's CDN at build/install time.
+
+WorkBuddy is closed-source Tencent software, subject to its own license
+and terms. This project is not affiliated with, endorsed by, or supported
+by Tencent. Do not report packaging issues to Tencent support.

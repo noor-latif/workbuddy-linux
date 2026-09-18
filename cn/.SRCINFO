@@ -1,0 +1,23 @@
+pkgbase = workbuddy-cn-bin
+	pkgdesc = AI Agent for everyday office work (mainland-China edition, vendor Linux build)
+	pkgver = 5.5.6.38337834_5f969292
+	pkgrel = 1
+	url = https://www.codebuddy.ai
+	arch = x86_64
+	license = custom
+	depends = gtk3
+	depends = libnotify
+	depends = nss
+	depends = libxss
+	depends = libxtst
+	depends = xdg-utils
+	depends = at-spi2-core
+	depends = libsecret
+	optdepends = libappindicator: tray icon support
+	optdepends = imagemagick: image-handling skills
+	options = !strip
+	options = !debug
+	source = WorkBuddy-linux-x64-deb-5.5.6.38337834-5f969292.deb::https://download.codebuddy.cn/workbuddy/saas/linux-x64-deb/WorkBuddy-linux-x64-deb-5.5.6.38337834-5f969292.deb
+	sha256sums = 2ef1bca217d29d9c2ba988c82079aa6ea0077e9f1ff882c6ab5dd7998bddf721
+
+pkgname = workbuddy-cn-bin
