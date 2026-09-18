@@ -37,14 +37,23 @@ makepkg -si
 Everything below the packaging is distro-independent — the API bugs, the
 digest mismatch, and the login gotcha bite Ubuntu/Fedora users identically:
 
-- **Direct `.deb` download (Debian/Ubuntu):** the international API
-  (`https://www.workbuddy.ai/v2/update?platform=workbuddy-linux-x64-deb`)
-  returns a URL that 404s; rewrite `/linux-x64-deb/` → `/linux-x64/` and
-  `WorkBuddy-linux-x64-deb-` → `WorkBuddy-linux-x64-`, then
-  `dpkg -i` the file (`Depends: libgtk-3-0, libnotify4, libnss3, libxss1,
-  libxtst6, xdg-utils, libatspi2.0-0, libuuid1, libsecret-1-0`).
-  CN: `https://copilot.tencent.com/v2/update?platform=workbuddy-linux-x64-deb`
-  serves a correct URL, no rewrite needed.
+- **One-liner** (international edition):
+
+  ```bash
+  curl -fsSL https://raw.githubusercontent.com/noor-latif/workbuddy-linux/main/install-deb.sh | bash
+  ```
+
+  CN edition: pipe to `bash -s -- cn`. The script resolves the update API to
+  the real `.deb` (working around the intl 404), downloads with resume,
+  checks size against `Content-Length`, then `dpkg -i` + `apt-get install -f`.
+  No trustworthy checksum exists to verify against (intl publishes none; the
+  CN API's advertised digest is wrong) — HTTPS + size is the check.
+- **Manual:** query `https://www.workbuddy.ai/v2/update?platform=workbuddy-linux-x64-deb`
+  (intl) or `https://copilot.tencent.com/v2/update?platform=workbuddy-linux-x64-deb`
+  (CN), rewrite the intl URL (`/linux-x64-deb/` → `/linux-x64/`, drop `-deb-`
+  from the filename; CN needs no rewrite), then `dpkg -i`
+  (`Depends: libgtk-3-0, libnotify4, libnss3, libxss1, libxtst6, xdg-utils,
+  libatspi2.0-0, libuuid1, libsecret-1-0`).
 - **Fedora/RHEL:** the CN API also publishes an rpm checksum per platform,
   so an official rpm path likely exists on the same bucket — not verified
   here.
