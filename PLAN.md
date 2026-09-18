@@ -466,7 +466,7 @@ running fine. Intl is older (5.5.2 vs 5.5.6) but it is the only edition that
 can authenticate here.
 
 - Upstream (`./check-upstream.sh intl`): `5.5.2.37849279-910352f0`, already
-  matching `pkg/PKGBUILD`. No checksum published for intl (API field empty).
+  matching `intl/PKGBUILD`. No checksum published for intl (API field empty).
 - Download: `.../saas/linux-x64/WorkBuddy-linux-x64-5.5.2.37849279-910352f0.deb`
   (rewritten from the API's 404ing `/linux-x64-deb/...-deb-...` URL),
   exactly **429231636 bytes** per `Content-Length`. The CDN cut the connection

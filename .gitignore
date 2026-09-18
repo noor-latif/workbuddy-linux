@@ -1,6 +1,6 @@
 # Binaries and makepkg build trees — never commit these. The PKGBUILDs fetch
 # the vendor .deb from Tencent's CDN at build time; digests are pinned inside.
-# (Scoped with */ so the top-level pkg/ package dir is NOT ignored.)
+# `*/pkg/` ignores each package's generated makepkg output directory.
 *.deb
 *.pkg.tar.zst
 *.log

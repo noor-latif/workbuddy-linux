@@ -10,7 +10,7 @@ built on the assumption that none exists.
 
 | dir | pkgname | edition | version |
 |---|---|---|---|
-| `pkg/` | `workbuddy-intl-bin` | international | 5.5.2.37849279_910352f0 |
+| `intl/` | `workbuddy-intl-bin` | international | 5.5.2.37849279_910352f0 |
 | `cn/` | `workbuddy-cn-bin` | mainland-China | 5.5.6.38337834_5f969292 |
 
 ## Install
@@ -25,8 +25,8 @@ Clone this repository, then run one command:
 ```bash
 git clone https://github.com/noor-latif/workbuddy-linux.git
 cd workbuddy-linux
-make install-intl   # international
-make install-cn     # mainland-China
+make install       # international
+make install-cn    # mainland-China
 ```
 
 Launch: `workbuddyai` (international) or `workbuddy` (CN).

@@ -15,7 +15,7 @@ EDITION="${1:-${EDITION:-intl}}"
 case "$EDITION" in
   intl)
     API='https://www.workbuddy.ai/v2/update?platform=workbuddy-linux-x64-deb'
-    PKGDIR="${PKGDIR:-$ROOT/pkg}"
+    PKGDIR="${PKGDIR:-$ROOT/intl}"
     ;;
   cn)
     API='https://copilot.tencent.com/v2/update?platform=workbuddy-linux-x64-deb'

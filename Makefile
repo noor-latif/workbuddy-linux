@@ -16,7 +16,7 @@ help:
 install: install-intl
 
 install-intl:
-	cd $(ROOT)pkg && makepkg -si
+	cd $(ROOT)intl && makepkg -si
 
 install-cn:
 	cd $(ROOT)cn && makepkg -si
