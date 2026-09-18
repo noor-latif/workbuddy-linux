@@ -10,15 +10,16 @@
 # The CN API's URL is served correctly as-is, so no rewrite is applied there.
 set -euo pipefail
 
+ROOT=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
 EDITION="${1:-${EDITION:-intl}}"
 case "$EDITION" in
   intl)
     API='https://www.workbuddy.ai/v2/update?platform=workbuddy-linux-x64-deb'
-    PKGDIR="${PKGDIR:-$HOME/dev/workbuddy/pkg}"
+    PKGDIR="${PKGDIR:-$ROOT/pkg}"
     ;;
   cn)
     API='https://copilot.tencent.com/v2/update?platform=workbuddy-linux-x64-deb'
-    PKGDIR="${PKGDIR:-$HOME/dev/workbuddy/cn}"
+    PKGDIR="${PKGDIR:-$ROOT/cn}"
     ;;
   *)
     echo "unknown edition: $EDITION (expected 'intl' or 'cn')" >&2

@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 # Update the WorkBuddy pacman package from Tencent's own update API.
-#
-#   workbuddy-update        # international edition (default)
-#   workbuddy-update cn     # mainland-China edition
+#   ./update.sh          # international edition
+#   ./update.sh cn       # mainland-China edition
 #
 # Exits 0 saying "up to date" when there is nothing to do. Otherwise it bumps
 # _pkgver/_build in the PKGBUILD, (re)downloads the .deb with resume across
@@ -13,15 +12,16 @@
 # yourself to run the new build.
 set -euo pipefail
 
+ROOT=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
 EDITION="${1:-${EDITION:-intl}}"
 case "$EDITION" in
   intl)
     API='https://www.workbuddy.ai/v2/update?platform=workbuddy-linux-x64-deb'
-    PKGDIR="$HOME/dev/workbuddy/pkg"
+    PKGDIR="$ROOT/pkg"
     ;;
   cn)
     API='https://copilot.tencent.com/v2/update?platform=workbuddy-linux-x64-deb'
-    PKGDIR="$HOME/dev/workbuddy/cn"
+    PKGDIR="$ROOT/cn"
     ;;
   *)
     echo "unknown edition: $EDITION (expected 'intl' or 'cn')" >&2

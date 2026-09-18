@@ -15,18 +15,25 @@ built on the assumption that none exists.
 
 ## Install
 
-**Pick an edition first:** outside China, use **international** — CN login
-requires Chinese citizenship and cannot authenticate here.
+Choose an edition first: outside China use **international** — CN login
+requires Chinese citizenship.
 
-**Arch** (clone the repo, build the edition you picked):
+### Arch
+
+Clone this repository, then run one command:
 
 ```bash
-cd workbuddy-linux/pkg   # international → command: workbuddyai
-cd workbuddy-linux/cn    # mainland-China → command: workbuddy
-makepkg -si
+git clone https://github.com/noor-latif/workbuddy-linux.git
+cd workbuddy-linux
+make install-intl   # international
+make install-cn     # mainland-China
 ```
 
-**Debian/Ubuntu** (one-liner, no repo needed):
+Launch: `workbuddyai` (international) or `workbuddy` (CN).
+
+### Debian/Ubuntu
+
+No repository needed:
 
 ```bash
 # international:
@@ -35,14 +42,14 @@ curl -fsSL https://raw.githubusercontent.com/noor-latif/workbuddy-linux/main/ins
 curl -fsSL https://raw.githubusercontent.com/noor-latif/workbuddy-linux/main/install-deb.sh | bash -s -- cn
 ```
 
-## Update
+### Update and checks
 
 ```bash
-workbuddy-update   # alias → ./update.sh
+make update       # international
+make update-cn    # mainland-China
+make check        # check international without changing files
+make check-cn     # check mainland-China without changing files
 ```
-
-Checks the API (version **and** build hash), resumes the ~430 MB
-download, re-pins the digest, runs `makepkg -si`.
 
 ## Notes
 

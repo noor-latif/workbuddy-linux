@@ -502,7 +502,7 @@ fails with **HTTP 404** here rather than CN's 401; `[WorkBuddy Renderer] scoped
 display language sync failed` was observed once — impact unknown. Re-run after
 sign-in; if the 404s persist past login, that is a genuine finding.
 
-Future updates: run `workbuddy-update` (alias → `~/dev/workbuddy/update.sh`).
+Future updates: run `make update` (international) or `make update-cn` (CN).
 It checks the API, and only if version *or* build hash changed, re-downloads
 (resumable), re-pins the digest, and runs `makepkg -si`. Tested 2026-09-18 on
 the up-to-date path (exits 0, no work done).
