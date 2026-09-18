@@ -472,7 +472,7 @@ can authenticate here.
   exactly **429231636 bytes** per `Content-Length`. The CDN cut the connection
   three times (curl exit 18, roughly every ~170 MB); resumed with `curl -C -`
   each time. Never hashed until the size matched exactly.
-- Pinned digest (self-measured, `pkg/PKGBUILD`): 
+- Pinned digest (self-measured, `intl/PKGBUILD`): 
   `807159ff6d26f596cd5716b82c20ad09bbfb68d7a0264da8aa2f48ec46734cb9`
 - Deb verified before build: `ar` members `debian-binary control.tar.xz
   data.tar.xz`, no GPG signature; layout `./opt/WorkBuddy AI/{workbuddyai,
