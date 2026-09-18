@@ -1,9 +1,8 @@
 # workbuddy-linux
 
-Arch packaging for [WorkBuddy](https://www.workbuddy.ai) (Tencent's AI
-agent) — verbatim repacks of the official Linux `.deb`s, plus a
-Debian/Ubuntu installer. No source changes, no rebuilt modules, no
-runtime swaps.
+Arch support for [WorkBuddy](https://www.workbuddy.ai) (Tencent's AI agent):
+verbatim repacks of the official Linux `.deb`s, plus a Debian/Ubuntu
+installer. No source changes, no rebuilt modules, no runtime swaps.
 
 The international update API serves an official Linux build behind a
 404ing URL (rewritten here); the AUR's intl package is a macOS port
