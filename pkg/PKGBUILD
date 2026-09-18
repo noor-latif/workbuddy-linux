@@ -1,0 +1,70 @@
+# Maintainer: noor <noor@latif.se>
+# Vendor-provided Linux x64 build of the Tencent WorkBuddy *international*
+# edition, repackaged for pacman. This is a verbatim repack of the .deb that
+# Tencent's own update API serves — it is not an independently authenticated
+# "official" binary, and no upstream checksum exists for this edition.
+#
+# NOTE: this is a repackager, not a build. WorkBuddy is closed-source Electron
+# shipped as a single app.asar with its own vendored runtime; there is no source
+# to compile. "Tracking a different source" is the only real lever here.
+
+pkgname=workbuddy-intl-bin
+_pkgver=5.5.2.37849279
+_build=910352f0
+pkgver=${_pkgver}_${_build}
+pkgrel=1
+pkgdesc="AI Agent for everyday office work (international edition, official Linux build)"
+arch=('x86_64')
+url="https://www.workbuddy.ai"
+license=('custom')
+# Mapped 1:1 from the deb's own Depends: field.
+depends=('gtk3' 'libnotify' 'nss' 'libxss' 'libxtst' 'xdg-utils' 'at-spi2-core' 'libsecret')
+# From the deb's Recommends:
+optdepends=('libappindicator: tray icon support'
+            'imagemagick: image-handling skills')
+# Do not strip the bundled Electron runtime, and skip debug symbol generation
+# for a 1.7 GB tree.
+options=(!strip !debug)
+
+# The intl update API returns this same version but with a URL that 404s
+# (.../linux-x64-deb/WorkBuddy-linux-x64-deb-<v>.deb). The bucket only serves
+# .../linux-x64/WorkBuddy-linux-x64-<v>.deb — verified 404 vs 200. Hence the
+# hand-written URL below rather than anything derived from the API.
+_debname="WorkBuddy-linux-x64-${_pkgver}-${_build}.deb"
+source=("${_debname}::https://codebuddy-1328495429.cos.accelerate.myqcloud.com/workbuddy/saas/linux-x64/${_debname}")
+
+# Tencent publishes NO checksum for the international build (the intl API's
+# sha256hash field is empty; only the CN API populates it). Pinned to the
+# locally measured digest of the exact artifact above (2026-09-18, 429231636
+# bytes). CHANGEME fails closed — makepkg refuses to proceed.
+sha256sums=('807159ff6d26f596cd5716b82c20ad09bbfb68d7a0264da8aa2f48ec46734cb9')
+
+prepare() {
+  cd "$srcdir"
+  # makepkg unpacks the .deb's ar members itself ("Extracting ... with bsdtar"),
+  # so data.tar.xz is normally already sitting here. Verified on this machine;
+  # the ar fallback covers a future makepkg that stops doing that.
+  [[ -f data.tar.xz ]] || ar x "${_debname}" data.tar.xz
+  mkdir -p pkgroot
+  tar xf data.tar.xz -C pkgroot
+}
+
+package() {
+  # Upstream layout: /opt/WorkBuddy AI/{workbuddyai,chrome-sandbox,resources/...}
+  # Keep the space in "WorkBuddy AI" exactly as upstream has it — the app
+  # resolves internal paths relative to it.
+  install -dm755 "$pkgdir/opt"
+  cp -a "$srcdir/pkgroot/opt/." "$pkgdir/opt/"
+
+  # Desktop entry + hicolor icons come straight from the deb.
+  cp -a "$srcdir/pkgroot/usr/." "$pkgdir/usr/"
+
+  # The deb creates this via postinst/update-alternatives; we own it directly.
+  install -dm755 "$pkgdir/usr/bin"
+  ln -s '/opt/WorkBuddy AI/workbuddyai' "$pkgdir/usr/bin/workbuddyai"
+
+  # Verified on this machine: kernel.unprivileged_userns_clone=1 and
+  # `unshare --user true` succeeds, so the sandbox works without SUID.
+  # If that ever changes, this must become 4755 instead.
+  chmod 0755 "$pkgdir/opt/WorkBuddy AI/chrome-sandbox"
+}

@@ -1,0 +1,80 @@
+# Maintainer: noor <noor@latif.se>
+# Vendor-provided Linux x64 build of the Tencent WorkBuddy *mainland-China*
+# edition, repackaged for pacman. This is a verbatim repack of the .deb that
+# Tencent's own CN update API serves (copilot.tencent.com/v2/update).
+#
+# Unlike the international edition, Tencent's CN update API PUBLISHES a sha256
+# for this build. That digest does not match the artifact its own CDN serves
+# (see the sha256sums comment below), so the digest pinned here was measured
+# locally instead. Either way this is integrity, not authenticity: no Debian
+# signature is present in the package (control.tar.xz has no _gpgbuilder).
+#
+# NOTE: this is a repackager, not a build. WorkBuddy is closed-source Electron
+# shipped as a single app.asar with its own vendored runtime; there is no source
+# to compile.
+
+pkgname=workbuddy-cn-bin
+_pkgver=5.5.6.38337834
+_build=5f969292
+pkgver=${_pkgver}_${_build}
+pkgrel=1
+pkgdesc="AI Agent for everyday office work (mainland-China edition, vendor Linux build)"
+arch=('x86_64')
+url="https://www.codebuddy.ai"
+license=('custom')
+# Mapped 1:1 from the deb's own Depends: field (libuuid1 -> util-linux).
+depends=('gtk3' 'libnotify' 'nss' 'libxss' 'libxtst' 'xdg-utils' 'at-spi2-core' 'libsecret')
+# From the deb's Recommends:
+optdepends=('libappindicator: tray icon support'
+            'imagemagick: image-handling skills')
+# Do not strip the bundled Electron runtime, and skip debug symbol generation
+# for a 1.7 GB tree.
+options=(!strip !debug)
+
+# The CN API returns a URL that is served correctly as-is (no 404 rewrite
+# needed, unlike the international API). Note the filename itself contains
+# "-deb", which the international one does not.
+_debname="WorkBuddy-linux-x64-deb-${_pkgver}-${_build}.deb"
+source=("${_debname}::https://download.codebuddy.cn/workbuddy/saas/linux-x64-deb/${_debname}")
+
+# Self-measured digest of the artifact Tencent's CN CDN actually serves.
+# The CN API advertises 03d756b2... for this platform, but the object at that
+# URL hashes to the value below. Established 2026-09-18: the local file matches
+# the object's own x-cos-meta-md5, fresh ranged GETs of head/tail match, and all
+# 11345 file MD5s in the deb's internal manifest verify -- so the bytes are
+# intact and stable; the API's advertised hash simply does not describe them.
+sha256sums=('2ef1bca217d29d9c2ba988c82079aa6ea0077e9f1ff882c6ab5dd7998bddf721')
+
+prepare() {
+  cd "$srcdir"
+  # makepkg unpacks the .deb's ar members itself ("Extracting ... with bsdtar"),
+  # so data.tar.xz is normally already sitting here. Verified on this machine;
+  # the ar fallback covers a future makepkg that stops doing that.
+  [[ -f data.tar.xz ]] || ar x "${_debname}" data.tar.xz
+  mkdir -p pkgroot
+  tar xf data.tar.xz -C pkgroot
+}
+
+package() {
+  # Upstream layout: /opt/WorkBuddy/{workbuddy,chrome-sandbox,resources/...}
+  # No space in this one — the international edition uses "/opt/WorkBuddy AI".
+  install -dm755 "$pkgdir/opt"
+  cp -a "$srcdir/pkgroot/opt/." "$pkgdir/opt/"
+
+  # Desktop entry + hicolor icons come straight from the deb.
+  cp -a "$srcdir/pkgroot/usr/." "$pkgdir/usr/"
+
+  # The deb creates this via postinst/update-alternatives; we own it directly.
+  install -dm755 "$pkgdir/usr/bin"
+  ln -s '/opt/WorkBuddy/workbuddy' "$pkgdir/usr/bin/workbuddy"
+
+  # Verified on this machine: kernel.unprivileged_userns_clone=1 and
+  # `unshare --user true` succeeds, so the sandbox works without SUID.
+  # If that ever changes, this must become 4755 instead.
+  chmod 0755 "$pkgdir/opt/WorkBuddy/chrome-sandbox"
+
+  # Deliberately NOT installed: the deb's postinst copies
+  # resources/apparmor-profile to /etc/apparmor.d/workbuddy on AppArmor hosts.
+  # Arch does not enable AppArmor by default and the upstream script itself
+  # treats the profile as optional, so shipping it here would be inert at best.
+}
