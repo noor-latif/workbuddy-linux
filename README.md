@@ -51,6 +51,15 @@ make check        # check international without changing files
 make check-cn     # check mainland-China without changing files
 ```
 
+## Community
+
+WorkBuddy's public Discord, linked by the official `@WorkBuddy_AI` account:
+https://discord.gg/MKB4JVtKab
+
+Tencent serves the Linux artifact through its update API, but the WorkBuddy
+team has not yet confirmed official Linux support. Use the Discord to request
+a corrected stable Linux URL and published checksum.
+
 ## Notes
 
 - Outside China use intl — **CN login requires Chinese citizenship.**
