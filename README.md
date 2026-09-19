@@ -36,8 +36,7 @@ make check-cn     # check mainland China
 
 ## Community
 
-[WorkBuddy Discord](https://discord.gg/MKB4JVtKab) — ask for a corrected
-Linux URL, published checksum, and confirmation of Linux support.
+[WorkBuddy Discord](https://discord.gg/MKB4JVtKab)
 
 ## About
 
