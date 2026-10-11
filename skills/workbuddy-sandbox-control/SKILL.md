@@ -84,8 +84,8 @@ Back up each file first (`cp -p <file> <file>.bak-$(date +%Y%m%d-%H%M%S)`). An a
 Read the app's own log, not your own shell (your shell has host access regardless, so it proves nothing):
 
 ```bash
-grep -ho '\[SandboxFinalState\][^"]*' ~/.workbuddy-ai/logs/$(date +%F)/noor__*.log | tail -3
-grep -ho '\[SandboxAgentRunInterceptor\] sandboxTurnConfig={"useSandboxCLI":[a-z]*' ~/.workbuddy-ai/logs/$(date +%F)/noor__*.log | tail -3
+grep -ho '\[SandboxFinalState\][^"]*' ~/.workbuddy-ai/logs/$(date +%F)/*.log | tail -3
+grep -ho '\[SandboxAgentRunInterceptor\] sandboxTurnConfig={"useSandboxCLI":[a-z]*' ~/.workbuddy-ai/logs/$(date +%F)/*.log | tail -3
 ```
 Success = `effectiveSandboxEnabled=false` + `ruleProfile=sandbox-disabled` + `useSandboxCLI=false`
 in a session started **after** the restart. `configuredSandboxEnabled` may still read true; ignore it.

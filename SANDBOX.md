@@ -9,6 +9,9 @@ The desktop app ignores that key. This document records what actually controls t
 
 Applies to WorkBuddy AI 5.5.x on Linux. Unofficial workaround — see [DISCLAIMER](DISCLAIMER).
 
+Agent-facing version of this document, for dropping into any agent that reads `SKILL.md` (OMP,
+[CC], WorkBuddy itself): [`skills/workbuddy-sandbox-control/SKILL.md`](skills/workbuddy-sandbox-control/SKILL.md).
+
 ## Symptom
 
 From the agent's Bash tool:
@@ -118,6 +121,12 @@ Then confirm `~/.workbuddy-ai/app/app-config.json` still contains
 Sandbox settings are read at session start, so **restart the app and open a new session**. In
 that session's Bash tool:
 
+> **A new session is required — restarting is not enough on its own.** The sandbox flag is
+> persisted per session as `sessions.use_sandbox_cli = 1` in `~/.workbuddy-ai/workbuddy.db`.
+> Sessions created before the fix keep replaying the old value from the database, so a *reopened*
+> pre-existing conversation may still be sandboxed even though the app now reports the flag as
+> off. Judge the fix on a session created after the restart.
+
 ```console
 $ ps -p 1 -o comm=
 systemd
@@ -127,7 +136,9 @@ $ systemctl is-active <some-unit>
 active
 ```
 
-The app also records the decision itself. In `~/.workbuddy-ai/logs/<YYYY-MM-DD>/noor__*.log`:
+The app also records the decision itself. In `~/.workbuddy-ai/logs/<YYYY-MM-DD>/<username>__*.log`
+(the filename is `<username>__<hash>.log`, so `*.log` also works if you are unsure of your
+username):
 
 ```
 [SandboxFinalState] sessionId=… permissionMode=fullAccess
