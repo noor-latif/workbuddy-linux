@@ -34,6 +34,11 @@ make check        # check international
 make check-cn     # check mainland China
 ```
 
+## Troubleshooting
+
+The agent's Bash tool runs sandboxed by default, which hides systemd and makes `systemctl` fail.
+To run commands on the real host, see [SANDBOX.md](SANDBOX.md).
+
 ## Community
 
 [WorkBuddy Discord](https://discord.gg/MKB4JVtKab)
