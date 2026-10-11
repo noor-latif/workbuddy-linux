@@ -122,10 +122,11 @@ Sandbox settings are read at session start, so **restart the app and open a new 
 that session's Bash tool:
 
 > **A new session is required — restarting is not enough on its own.** The sandbox flag is
-> persisted per session as `sessions.use_sandbox_cli = 1` in `~/.workbuddy-ai/workbuddy.db`.
-> Sessions created before the fix keep replaying the old value from the database, so a *reopened*
-> pre-existing conversation may still be sandboxed even though the app now reports the flag as
-> off. Judge the fix on a session created after the restart.
+> persisted per session as `use_sandbox_cli` in `~/.workbuddy-ai/workbuddy.db`, and the daemon
+> replays that stored value into the CLI's spawn arguments. Only sessions created *after* the fix
+> pick up the new value; every pre-existing row keeps its old one. So a *reopened* conversation
+> may still be sandboxed even though the app now reports the flag as off. Judge the fix on a
+> session created after the restart.
 
 ```console
 $ ps -p 1 -o comm=
