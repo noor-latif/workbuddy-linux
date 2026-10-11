@@ -13,10 +13,13 @@
       `~/.workbuddy-ai/workbuddy.db`) and replayed into the CLI spawn args, so a **new** session is
       required — a reopened pre-existing conversation may still be sandboxed (`SANDBOX.md:124-129`).
 - [x] Published to `main`: `3e96a46`, `abf410f`, `1e36b27`, `5ea27c5`.
+- [x] Post-publication review pass: fixed a false "`origin` still uses the old `workbuddy-pacman`
+      URL" trap carried over from a previous handoff, and refreshed stale commit references
+      (`6397458`).
 
 ## Current State & Verification
-- **Branch / Commit:** `main`, in sync with `origin/main`; the handoff file itself is the only change
-  after `5ea27c5`.
+- **Branch / Commit:** `main`, in sync with `origin/main`. This handoff's own commit is the current
+  HEAD; verify with `git ls-remote origin main`, not the remote ref name in this file.
 - **Working Tree:** clean.
 - **Tests & Build:** not run — this repo has no test suite, and the changes are documentation only.
   The published fix was verified independently of this repo, via the app's own log
@@ -56,6 +59,10 @@
   is gated on the same flag.
 - **The `/opt` patch is reverted by any app update.** Re-apply recipe is in `SANDBOX.md`; the script
   prints `NO MATCH` rather than failing silently if the bundle changes.
+- **Verify pushes with git, never with a raw URL.** `raw.githubusercontent.com` serves stale edge
+  copies for minutes after a push and ignores `?cachebust=` parameters, so a hash-compare against it
+  can falsely report that a push did not land. Use `git ls-remote origin main` for the head SHA, or
+  `git show origin/main:<path> | sha256sum` for content.
 - The canonical repository URL is `https://github.com/noor-latif/workbuddy-linux`; `origin` points at
   it directly. (Earlier handoffs noted origin still used the old `workbuddy-pacman` URL — that has
   since been corrected, so a redirect no longer applies.)
