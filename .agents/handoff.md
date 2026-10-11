@@ -12,10 +12,11 @@
 - [x] Documented that the sandbox flag is persisted per session (`use_sandbox_cli` in
       `~/.workbuddy-ai/workbuddy.db`) and replayed into the CLI spawn args, so a **new** session is
       required — a reopened pre-existing conversation may still be sandboxed (`SANDBOX.md:124-129`).
-- [x] Published to `main`: `3e96a46`, `abf410f`, `1e36b27`.
+- [x] Published to `main`: `3e96a46`, `abf410f`, `1e36b27`, `5ea27c5`.
 
 ## Current State & Verification
-- **Branch / Commit:** `main` at `1e36b27`, in sync with `origin/main`.
+- **Branch / Commit:** `main`, in sync with `origin/main`; the handoff file itself is the only change
+  after `5ea27c5`.
 - **Working Tree:** clean.
 - **Tests & Build:** not run — this repo has no test suite, and the changes are documentation only.
   The published fix was verified independently of this repo, via the app's own log
@@ -55,8 +56,9 @@
   is gated on the same flag.
 - **The `/opt` patch is reverted by any app update.** Re-apply recipe is in `SANDBOX.md`; the script
   prints `NO MATCH` rather than failing silently if the bundle changes.
-- The canonical repository URL is `https://github.com/noor-latif/workbuddy-linux`; the configured
-  `origin` still uses the old `workbuddy-pacman` URL, which GitHub redirects.
+- The canonical repository URL is `https://github.com/noor-latif/workbuddy-linux`; `origin` points at
+  it directly. (Earlier handoffs noted origin still used the old `workbuddy-pacman` URL — that has
+  since been corrected, so a redirect no longer applies.)
 - `remote-packages/`, `cn/src/`, `cn/pkg/`, `intl/src/`, and `intl/pkg/` are generated or downloaded
   artifacts and are intentionally ignored.
 - The CN API advertises a checksum that does not match the served object. Do not replace the pinned
